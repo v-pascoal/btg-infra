@@ -1,0 +1,61 @@
+services:
+  pedidos-app:
+    build:
+      context: ./containers/btg-itderiv-api-pedidos
+      dockerfile: Dockerfile
+    ports:
+      - "80:8080" # Porta local -> Porta do container
+    depends_on:
+      - mongodb
+      - rabbitmq
+    environment:
+      MongoDb__ConnectionString: "mongodb://root:example@mongodb:27017"
+      MongoDb__DatabaseName: "OrderDb"
+      RabbitMq__Host: "rabbitmq"
+      RabbitMq__User: "btg"
+      RabbitMq__Password: "itderiv"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://mongodb:27017 && curl -f http://rabbitmq:15672 || exit 1"]
+      interval: 90s
+      timeout: 30s
+      retries: 5
+      start_period: 10s
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongo", "--host", "localhost", "--eval", "db.runCommand('ping')"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"     # Porta para comunicação
+      - "15672:15672"   # Interface de gerenciamento
+    environment:
+      RABBITMQ_DEFAULT_USER: btg
+      RABBITMQ_DEFAULT_PASS: itderiv
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+
+volumes:
+  mongodb_data:
+  rabbitmq_data:

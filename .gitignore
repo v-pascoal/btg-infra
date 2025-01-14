@@ -398,3 +398,12 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Personalizado
+containers/*
+secrets/.DS_Store
+secrets/rmq-file-1.txt
+secrets/rmq-file-2.txt
+.DS_Store
+DockerCleanup.sh
+!containers/.gitkeep 
