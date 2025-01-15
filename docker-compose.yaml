@@ -1,16 +1,18 @@
 services:
   pedidos-app:
-    build:
-      context: ./containers/btg-itderiv-api-pedidos
-      dockerfile: Dockerfile
+    #Para deploy em prd ou ambiente de testes usar o image. Em Dev, usar build
+    image: vgmpascoal/btg-itderiv-api-pedidos:latest # Imagem personalizada no Docker Hub
+    # build:
+      # context: ./containers/btg-itderiv-api-pedidos
+      # dockerfile: Dockerfile
     ports:
       - "80:8080" # Porta local -> Porta do container
     depends_on:
       - mongodb
       - rabbitmq
     environment:
-      MongoDb__ConnectionString: "mongodb://root:example@mongodb:27017"
-      MongoDb__DatabaseName: "OrderDb"
+      MongoDb__ConnectionString: "mongodb://btg:itderiv@mongodb:27017"
+      MongoDb__DatabaseName: "btg-pedidos"
       RabbitMq__Host: "rabbitmq"
       RabbitMq__User: "btg"
       RabbitMq__Password: "itderiv"
@@ -27,8 +29,8 @@ services:
     ports:
       - "27017:27017"
     environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_ROOT_USERNAME: btg
+      MONGO_INITDB_ROOT_PASSWORD: itderiv
     volumes:
       - mongodb_data:/data/db
     healthcheck:

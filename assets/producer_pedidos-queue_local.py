@@ -2,7 +2,7 @@ import pika
 import json
 
 # Conexão com o RabbitMQ
-connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))  # Substitua 'localhost' pelo host do RabbitMQ
+connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
 channel = connection.channel()
 
 # Especificando a fila

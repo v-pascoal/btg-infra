@@ -5,7 +5,7 @@ Repositório responsável pela infra de containers do projeto.
 Para usar este repositório você vai precisar:
 
 1. Docker (Engine, Desktop, Daemon, CLI)
-2. Todas as APIs listadas na sessão [Aplicações deste container](#aplicações-deste-container) devidamente baixadas na pasta `containers`.
+2. Se você for usar local: Todas as APIs listadas na sessão [Aplicações deste container](#aplicações-deste-container) devidamente baixadas na pasta `containers`.
 
 ## Passo a passo
 Siga estes passos para executar o container em sua máquina. Fique atento aos pré-requisitos.
@@ -26,6 +26,7 @@ Siga estes passos para executar o container em sua máquina. Fique atento aos pr
 
 O RabbitMQ UI deve estar disponível na porta padrão 15675 - [http://localhost:15675](http://localhost:15675)  
 O MongoDB deve estar disponível na porta padrão 27017 - `mongodb://<usuario>:<senha>@localhost:27017`
+O Pedidos API deve estar disponível na portal 80 - [http://localhost](http://localhost)
 
 > **OBS:** Verifique no arquivo [docker-compose.yaml](./docker-compose.yaml) o usuário e senha para se conectar ao Dashboard do RabbitMQ e ao MongoDB.
 
@@ -39,7 +40,7 @@ O MongoDB deve estar disponível na porta padrão 27017 - `mongodb://<usuario>:<
 
 ## Como eu crio uma nova aplicação e integro ao container?
 1. Crie a aplicação normalmente seguindo os padrões de arquitetura do BTG. Ao concluir, crie o `Dockerfile` na raiz desta aplicação.
-2. No arquivo [docker-compose.yaml](./docker-compose.yaml) adicione as entradas para a sua aplicação seguindo o padrão `<funcionalidade-api>`.
+2. No arquivo [docker-compose.yaml](./docker-compose.yaml) adicione as entradas para a sua aplicação seguindo o padrão `<funcionalidade-app>`.
 3. Pare os containers (se estiverem rodando):
 
     ```bash
